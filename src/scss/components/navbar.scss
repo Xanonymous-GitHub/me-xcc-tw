@@ -1,6 +1,14 @@
+@import "../mixin";
+
 nav {
   .navbar-brand {
     font-size: inherit;
+  }
+
+  @include d-svg(40) {
+    @media (max-width: 576px) {
+      display: none;
+    }
   }
 
   background-color: rgb(17, 17, 17);

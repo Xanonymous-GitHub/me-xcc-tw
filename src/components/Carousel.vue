@@ -11,7 +11,7 @@
     </div>
 
     <a v-for="(config, k) in carouseControllerConfig" :key="k" :class="'carousel-control-'+config.dataBsSlide"
-       :data-bs-slide="config.dataBsSlide" href="#carousel-top" role="button">
+       :data-bs-slide="config.dataBsSlide" href="#carousel-top" role="button" rel="noreferrer noopener">
       <span :class="'carousel-control-'+config.dataBsSlide+'-icon'" aria-hidden="true"></span>
       <span class="visually-hidden">{{ config.text }}</span>
     </a>

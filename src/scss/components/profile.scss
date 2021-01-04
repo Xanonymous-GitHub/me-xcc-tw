@@ -1,6 +1,8 @@
+@import "../mixin";
+
 #avatar {
   width: auto;
-  height: calc((20vw + 20vh) / 2);
+  height: calc((25vw + 15vh) / 2);
   position: relative;
   background-position: center center;
   background-size: cover;
@@ -13,4 +15,33 @@
 
 .profile-card {
   max-width: 100vw;
+
+  address {
+    padding: .2em;
+    transition: .2s ease-in-out;
+
+    a {
+      margin: 0 .5em;
+      color: inherit;
+      text-decoration: none;
+      transition: .2s ease-in-out;
+    }
+
+    &:hover {
+      background-color: gray;
+      transition: .2s ease-in-out;
+
+      a {
+        color: white;
+        transition: .2s ease-in-out;
+      }
+    }
+
+    &:active {
+      background-color: black;
+      transition: .2s ease-in-out;
+    }
+  }
+
+  @include d-svg(30);
 }

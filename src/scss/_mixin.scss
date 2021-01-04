@@ -3,3 +3,13 @@
   min-height: -webkit-fill-available;
   height: 100%
 }
+
+@mixin d-svg($size) {
+  .d-svg {
+    position: relative;
+    width: #{$size}px;
+    height: auto;
+    display: initial;
+    @content
+  }
+}

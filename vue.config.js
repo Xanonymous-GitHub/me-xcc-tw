@@ -18,6 +18,17 @@ module.exports = {
     config.performance
       .maxEntrypointSize(2000000)
       .maxAssetSize(1000000)
+    const svgRule = config.module.rule('svg')
+    svgRule.uses.clear()
+    config.module
+      .rule("svg-sprite-loader")
+      .test(/\.svg$/)
+      .include
+      .add(resolve("src/svg"))
+      .end()
+      .use("svg-sprite-loader")
+      .loader("svg-sprite-loader")
+      .options({symbolId: "[name].svg"})
   },
   configureWebpack: config => {
     const plugins = []
