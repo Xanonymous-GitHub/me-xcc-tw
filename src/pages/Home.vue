@@ -6,7 +6,8 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, onMounted} from 'vue';
+import {defineComponent, onMounted, inject} from 'vue';
+import {firebaseType} from "@/firebase";
 import HelloWorld from '@/components/HelloWorld.vue';
 
 export default defineComponent({
@@ -15,8 +16,11 @@ export default defineComponent({
     HelloWorld,
   },
   setup() {
+    const firebase = inject<firebaseType>('firebase')
+
     onMounted(() => {
       document.dispatchEvent(new Event('app-rendered'));
+      console.log(firebase)
     })
   }
 });
