@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar rounded-3 my-3 navbar-expand-lg navbar-light bg-dark bg-gradient mx-3">
+  <nav class="navbar rounded-pill my-3 navbar-expand-lg navbar-light mx-3">
     <div class="container-fluid">
       <span class="navbar-brand text-white user-select-none fw-bolder fs-lg-4">🔥 Xanonymous's Pending Works</span>
     </div>

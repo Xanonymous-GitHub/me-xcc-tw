@@ -2,4 +2,13 @@ nav {
   .navbar-brand {
     font-size: inherit;
   }
+
+  background-color: rgb(17, 17, 17);
+  background-position: -50px 0px, -50px 0px, 0% 0%, 0% 0%;
+  background-repeat: repeat, repeat, repeat, repeat;
+  background-attachment: scroll, scroll, scroll, scroll;
+  background-image: linear-gradient(135deg, black 25%, transparent 25%), linear-gradient(225deg, black 25%, transparent 25%), linear-gradient(315deg, black 25%, transparent 25%), linear-gradient(45deg, black 25%, transparent 25%);
+  background-size: 2em 2em;
+  background-origin: padding-box, padding-box, padding-box, padding-box;
+  background-clip: border-box, border-box, border-box, border-box;
 }

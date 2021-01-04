@@ -16,12 +16,29 @@ module.exports = {
   productionSourceMap: false,
   chainWebpack: config => {
     config.performance
-      .maxEntrypointSize(1000000)
+      .maxEntrypointSize(2000000)
       .maxAssetSize(1000000)
   },
   configureWebpack: config => {
     const plugins = []
     if (isProduction) {
+      config.optimization = {
+        runtimeChunk: 'single',
+        splitChunks: {
+          chunks: 'all',
+          maxInitialRequests: Infinity,
+          maxSize: 50000,
+          cacheGroups: {
+            vendor: {
+              test: /[\\/]node_modules[\\/]/,
+              name(module) {
+                const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1]
+                return `${packageName.replace('@', '')}`
+              }
+            }
+          }
+        }
+      };
       plugins.push(
         new PrerenderSpaPlugin({
           staticDir: resolve("dist"),

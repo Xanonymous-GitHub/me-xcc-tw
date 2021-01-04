@@ -1,35 +1,65 @@
 <template>
-  <div id="carousel-top" class="carousel carousel__top slide mx-3 rounded-3 d-inline-block" data-bs-ride="carousel">
+  <div id="carousel-top" class="carousel carousel__top slide mx-3 rounded-3 d-inline-block rounded-3"
+       data-bs-ride="carousel">
+    <ol class="carousel-indicators">
+      <li v-for="(_, k) in imageList" :key="k" :data-bs-slide-to="k" data-bs-target="#carousel-top"/>
+    </ol>
     <div class="carousel-inner">
-      <div class="carousel-item active">
-        <img alt="..." class="d-block w-auto mw-100 mx-auto" src="https://i.imgur.com/bFcdQMh.webp">
-      </div>
-      <div class="carousel-item">
-        <img alt="..." class="d-block w-auto mw-100 mx-auto" src="https://i.imgur.com/dEKDZaM.webp">
-      </div>
-      <div class="carousel-item">
-        <img alt="..." class="d-block w-auto mw-100 mx-auto" src="https://i.imgur.com/JPjHtac.webp">
+      <div v-for="(url, k) in imageList" :key="k" class="carousel-item">
+        <img :src="url" alt="" class="d-block w-auto mw-100 mx-auto">
       </div>
     </div>
-    <a class="carousel-control-prev" data-bs-slide="prev" href="#carousel-top" role="button">
-      <span aria-hidden="true" class="carousel-control-prev-icon"></span>
-      <span class="visually-hidden">Previous</span>
-    </a>
-    <a class="carousel-control-next" data-bs-slide="next" href="#carousel-top" role="button">
-      <span aria-hidden="true" class="carousel-control-next-icon"></span>
-      <span class="visually-hidden">Next</span>
+
+    <a v-for="(config, k) in carouseControllerConfig" :key="k" :class="'carousel-control-'+config.dataBsSlide"
+       :data-bs-slide="config.dataBsSlide" href="#carousel-top" role="button">
+      <span :class="'carousel-control-'+config.dataBsSlide+'-icon'" aria-hidden="true"></span>
+      <span class="visually-hidden">{{ config.text }}</span>
     </a>
   </div>
 </template>
 
 <script lang="ts">
-import {defineComponent} from 'vue';
+import {defineComponent, reactive, toRefs, onMounted, nextTick} from 'vue';
 import '@/scss/components/carouse.scss'
 
 export default defineComponent({
   name: 'Carousel',
   setup() {
-    return
+    const data = reactive({
+      imageList: [
+        'bFcdQMh',
+        'dEKDZaM',
+        'JPjHtac'
+      ].map((id) => 'https://i.imgur.com/' + id + '.webp'),
+      carouseControllerConfig: [
+        {
+          text: 'Previous',
+          dataBsSlide: 'prev'
+        },
+        {
+          text: 'Next',
+          dataBsSlide: 'next'
+        }
+      ]
+    })
+
+    onMounted(() => {
+      nextTick(() => {
+        const carouselItems = document.querySelectorAll('.carousel-item') as unknown as Array<HTMLDivElement>
+        if (carouselItems.length > 0) {
+          carouselItems[0].classList.add('active')
+        }
+
+        const carouselIndicators = (document.querySelector('.carousel-indicators') as unknown as HTMLElement).children as unknown as Array<HTMLOListElement>
+        if (carouselIndicators.length > 0) {
+          carouselIndicators[0].classList.add('active')
+        }
+      })
+    })
+
+    return {
+      ...toRefs(data)
+    }
   }
 });
 </script>
