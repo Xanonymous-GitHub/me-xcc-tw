@@ -8,6 +8,7 @@
 
 <script lang="ts">
 import {defineComponent, provide, onMounted} from "vue";
+import '@/scss/app.scss'
 import {firebaseType} from "./firebase";
 
 export default defineComponent({
