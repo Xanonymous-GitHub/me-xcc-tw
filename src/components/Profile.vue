@@ -60,7 +60,7 @@ export default defineComponent({
         {
           title: 'LinkedIn',
           svg: '#linkedIn.svg',
-          link: 'https://youtube.com/anonymousX_TM'
+          link: 'https://www.linkedin.com/in/xanonymous'
         },
         {
           title: 'Instagram',
