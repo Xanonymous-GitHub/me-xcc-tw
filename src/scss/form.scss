@@ -6,10 +6,29 @@ body {
 
 .add-work {
   .logo {
-    @include d-svg(200);
+    @include d-svg(200)
   }
 
   .work-form {
     background-color: white;
+    max-width: min(850px, 100vw - 4em);
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+
+    .picture {
+      &.default {
+        border-style: dashed;
+        border-width: .5rem;
+        border-color: gray;
+      }
+
+      svg {
+        position: relative;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
+    }
   }
 }

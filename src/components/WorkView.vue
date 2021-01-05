@@ -1,7 +1,7 @@
 <template>
   <div class="work-view my-3 my-sm-3 mx-sm-auto rounded-3 mx-3">
     <h1 class="py-3 py-sm-3 my-0">
-      <svg class="d-svg rounded-circle" viewBox="0 0 1 1">
+      <svg class="d-svg" viewBox="0 0 1 1">
         <use xlink:href="#todo.svg"/>
       </svg>
       Works

@@ -1,5 +1,6 @@
 import firebase from "firebase/app";
 import "firebase/firestore";
+import {time} from "@/firebase/type";
 
 const firebaseConfig = {
   apiKey: "AIzaSyB4Ah9huX0wpLowX00GVw3BBLJRdCd6xcg",
@@ -15,3 +16,6 @@ firebase.initializeApp(firebaseConfig);
 
 export default firebase;
 export const db = firebase.firestore();
+export const getNewTimeStamp = (date: Date): time => {
+  return firebase.firestore.Timestamp.fromDate(date)
+}
