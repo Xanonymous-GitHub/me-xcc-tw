@@ -7,16 +7,14 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, provide, onMounted} from "vue";
+import {defineComponent, provide} from "vue";
 import '@/scss/app.scss'
 import {firebaseType, dbType} from "./firebase/type";
 
 export default defineComponent({
   setup() {
-    onMounted(async () => {
-      provide<firebaseType>('firebase', require('./firebase/init').default)
-      provide<dbType>('db', require('./firebase/init').db)
-    })
+    provide<firebaseType>('firebase', require('./firebase/init').default)
+    provide<dbType>('db', require('./firebase/init').db)
   }
 })
 </script>
