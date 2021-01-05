@@ -6,6 +6,17 @@
   min-height: 60vh;
   width: 75vw;
 
+  .new-work-btn {
+    right: 0;
+    background-color: #2c3e50;
+    border-color: white;
+
+    :hover{
+      background-color: white;
+      color: black;
+    }
+  }
+
   .container {
     max-width: 100%;
     position: relative;
@@ -43,7 +54,8 @@
         fill: white;
         top: 50%;
         transition: .2s ease-in-out;
-        transform: translateY(-50%) scale(2);
+        position: absolute !important;
+        transform: translate(-50%, -50%) scale(2);
       }
     }
   }

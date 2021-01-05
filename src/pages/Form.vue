@@ -18,13 +18,25 @@
         </div>
 
         <div :class="{'invisible':creating}" class="mb-3">
-          <label class="form-label fw-bolder" for="title-input">Title</label>
+          <label class="form-label fw-bolder" for="title-input">*Title</label>
           <input id="title-input" v-model="title" class="form-control" type="text">
         </div>
         <div :class="{'invisible':creating}" class="mb-3">
-          <label class="form-label fw-bolder" for="sub-title-input">Subtitle</label>
+          <label class="form-label fw-bolder" for="sub-title-input">*Subtitle</label>
           <input id="sub-title-input" v-model="subtitle" class="form-control" type="text">
         </div>
+<!--        <div :class="{'invisible':creating}" class="mb-3">-->
+<!--          <label class="form-label fw-bolder" for="thumbnail-input">Thumbnail (url)</label>-->
+<!--          <div class="d-flex flex-wrap w-100 justify-content-between">-->
+<!--            <input id="thumbnail-input" ref="thumbnailInput" v-model="thumbnailUrl" class="form-control w-75"-->
+<!--                   type="url">-->
+<!--            <button :class="{'disabled':validateThumbnailInputUrl ||(creating || changingImg)}"-->
+<!--                    class="btn btn-warning btn-sm mx-1 my-1 text-nowrap fw-bolder mw-100 h-auto overflow-hidden position-relative"-->
+<!--                    type="submit">-->
+<!--              Preview-->
+<!--            </button>-->
+<!--          </div>-->
+<!--        </div>-->
         <button :class="{'disabled':creating || changingImg}"
                 class="btn btn-primary btn-sm mx-1 my-1 text-nowrap fw-bolder mw-100 overflow-hidden"
                 type="submit"
@@ -51,7 +63,7 @@
 
 
 <script lang="ts">
-import {defineComponent, onMounted, reactive, toRefs, ref, inject} from 'vue';
+import {defineComponent, onMounted, reactive, toRefs, ref, inject, computed} from 'vue';
 import '@/scss/form.scss'
 import '@/svg/todo.svg'
 import '@/svg/image.svg'
@@ -69,6 +81,7 @@ export default defineComponent({
     const data = reactive({
       title: '',
       subtitle: '',
+      thumbnailUrl: '',
       thumbnail: undefined as unknown as File,
       creating: false,
       changingImg: false,
@@ -76,6 +89,7 @@ export default defineComponent({
     })
 
     const uploader = ref({} as HTMLInputElement)
+    const thumbnailInput = ref({} as HTMLInputElement)
     const store = inject<dbType>('db') as dbType
 
     const onFileChanged = async (e: InputEvent) => {
@@ -114,6 +128,7 @@ export default defineComponent({
           thumbnail,
           createdAt: getNewTimeStamp(new Date())
         })
+        alert('✔ Successfully create Work!')
       } catch (e) {
         alert(e)
       }
@@ -146,6 +161,11 @@ export default defineComponent({
       data.formKey++
     }
 
+    const validateThumbnailInputUrl = computed((): boolean => {
+      console.log((!data.thumbnailUrl && thumbnailInput.value.checkValidity()))
+      return (!data.thumbnailUrl && thumbnailInput.value.checkValidity())
+    })
+
     onMounted(() => {
       document.dispatchEvent(new Event('app-rendered'));
     })
@@ -155,6 +175,8 @@ export default defineComponent({
       onFileChanged,
       uploader,
       uploadButtonClicked,
+      validateThumbnailInputUrl,
+      thumbnailInput,
       ...toRefs(data)
     }
   }

@@ -1,5 +1,8 @@
 <template>
-  <div class="work-view my-3 my-sm-3 mx-sm-auto rounded-3 mx-3 shadow">
+  <div class="work-view my-3 my-sm-3 mx-sm-auto rounded-3 mx-3 shadow position-relative">
+    <router-link rel="noreferrer noopener" target='_blank' to="/form">
+      <button type="button" class="btn text-white position-absolute new-work-btn shadow fw-bolder fs-6 mx-2 my-2">+</button>
+    </router-link>
     <h1 class="py-3 py-sm-3 my-0">
       <svg class="d-svg" viewBox="0 0 1 1">
         <use xlink:href="#todo.svg"/>
