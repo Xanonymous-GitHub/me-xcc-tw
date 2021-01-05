@@ -13,9 +13,5 @@ const firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
-export type firebaseType = firebase.app.App
-export type dbType = firebase.firestore.Firestore
-export type firebaseDocumentType = firebase.firestore.DocumentReference
-
 export default firebase;
 export const db = firebase.firestore();

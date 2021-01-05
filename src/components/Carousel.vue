@@ -1,12 +1,12 @@
 <template>
-  <div id="carousel-top" class="carousel carousel__top slide mx-3 rounded-3 d-inline-block rounded-3"
+  <div id="carousel-top" class="carousel carousel__top slide mx-3 rounded-3 d-inline-block rounded-3 my-3 my-sm-3"
        data-bs-ride="carousel">
     <ol class="carousel-indicators">
       <li v-for="(_, k) in imageList" :key="k" :data-bs-slide-to="k" data-bs-target="#carousel-top"/>
     </ol>
-    <div class="carousel-inner">
+    <div class="carousel-inner rounded-3">
       <div v-for="(url, k) in imageList" :key="k" class="carousel-item">
-        <img :src="url" alt="" class="d-block w-auto mw-100 mx-auto">
+        <img :src="url" alt="" class="d-block w-auto mw-100 mx-auto rounded-3">
       </div>
     </div>
 
