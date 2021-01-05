@@ -4,21 +4,24 @@
       <svg class="d-svg" viewBox="0 0 1 1">
         <use xlink:href="#todo.svg"/>
       </svg>
+      <h1 class="text-white fw-bolder main-title d-inline-block align-middle my-0 user-select-none">Works!</h1>
     </div>
     <div class="work-form px-5 py-5 rounded-3 shadow my-3 text-start">
-      <form id="new-work-form" class="w-100 mx-auto position-relative">
-        <div :class="{'default':!thumbnail}" class="picture my-3 position-relative" style="height: 200px"
+      <form id="new-work-form" :key="formKey" class="w-100 mx-auto position-relative">
+        <CircleProgress v-if="creating"/>
+        <div :class="{'default':!thumbnail, 'invisible':creating}" class="picture my-3 position-relative px-3 py-3"
+             style="height: 200px"
              @click.prevent.stop="uploadButtonClicked">
-          <svg class="d-svg position-relative" style="width: 100px" viewBox="0 0 1 1">
+          <svg class="d-svg position-relative mw-100" style="width: 100px" viewBox="0 0 1 1">
             <use xlink:href="#image.svg"/>
           </svg>
         </div>
 
-        <div class="mb-3">
+        <div :class="{'invisible':creating}" class="mb-3">
           <label class="form-label fw-bolder" for="title-input">Title</label>
           <input id="title-input" v-model="title" class="form-control" type="text">
         </div>
-        <div class="mb-3">
+        <div :class="{'invisible':creating}" class="mb-3">
           <label class="form-label fw-bolder" for="sub-title-input">Subtitle</label>
           <input id="sub-title-input" v-model="subtitle" class="form-control" type="text">
         </div>
@@ -55,16 +58,21 @@ import '@/svg/image.svg'
 import {dbType, UploadedMedia} from "@/firebase/type";
 import {getNewTimeStamp} from "@/firebase/init";
 import {uploadMedia, toBase64, replaceDefaultPicture} from "@/firebase/uploadImg";
+import CircleProgress from "@/components/CircleProgress.vue";
 
 export default defineComponent({
   name: 'Form',
+  components: {
+    CircleProgress
+  },
   setup() {
     const data = reactive({
       title: '',
       subtitle: '',
       thumbnail: undefined as unknown as File,
       creating: false,
-      changingImg: false
+      changingImg: false,
+      formKey: 0
     })
 
     const uploader = ref({} as HTMLInputElement)
@@ -110,6 +118,7 @@ export default defineComponent({
         alert(e)
       }
       data.creating = false
+      clearForm()
     }
 
     const uploadButtonClicked = () => {
@@ -128,6 +137,13 @@ export default defineComponent({
         return null
       }
       return url
+    }
+
+    const clearForm = () => {
+      data.title = ''
+      data.subtitle = ''
+      data.thumbnail = undefined as unknown as File
+      data.formKey++
     }
 
     onMounted(() => {

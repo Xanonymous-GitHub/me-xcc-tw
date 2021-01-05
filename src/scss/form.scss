@@ -6,7 +6,13 @@ body {
 
 .add-work {
   .logo {
-    @include d-svg(200)
+    @include d-svg(150) {
+      max-width: 100%;
+
+      @media (max-width: 576px) {
+        width: 100px;
+      }
+    }
   }
 
   .work-form {
