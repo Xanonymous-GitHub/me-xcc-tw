@@ -1,3 +1,15 @@
+@import 'mixin';
+
 body {
   background-color: #020631;
+}
+
+.add-work {
+  .logo {
+    @include d-svg(200);
+  }
+
+  .work-form {
+    background-color: white;
+  }
 }
