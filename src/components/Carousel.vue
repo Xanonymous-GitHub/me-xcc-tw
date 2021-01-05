@@ -1,5 +1,5 @@
 <template>
-  <div id="carousel-top" class="carousel carousel__top slide mx-3 rounded-3 d-inline-block rounded-3 my-3 my-sm-3"
+  <div id="carousel-top" class="carousel carousel__top slide mx-3 rounded-3 d-inline-block rounded-3 my-3 my-sm-3 shadow"
        data-bs-ride="carousel">
     <ol class="carousel-indicators">
       <li v-for="(_, k) in imageList" :key="k" :data-bs-slide-to="k" data-bs-target="#carousel-top"/>

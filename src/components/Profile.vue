@@ -2,7 +2,7 @@
   <div
       class="align-content-center justify-content-center profile-card my-5 d-flex flex-sm-row flex-column flex-wrap mx-auto w-75 mw-100 position-relative">
     <div class="d-flex justify-content-center align-content-center py-3">
-      <img id="avatar" alt="..." class="rounded-circle"
+      <img id="avatar" alt="..." class="rounded-circle shadow"
            src="https://i.imgur.com/UUs5dHp.webp">
     </div>
     <div class="px-3 mw-100">

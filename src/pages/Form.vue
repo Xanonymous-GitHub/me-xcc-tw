@@ -91,8 +91,10 @@ export default defineComponent({
       const title = data.title.toString().trim()
       const subtitle = data.title.toString().trim()
 
-      let thumbnail = ''
-      const imgUrl = await uploadImg(data.thumbnail)
+      let thumbnail = '', imgUrl = ''
+      if (data.thumbnail) {
+        imgUrl = await uploadImg(data.thumbnail) as string
+      }
       if (imgUrl) {
         thumbnail = imgUrl
       }

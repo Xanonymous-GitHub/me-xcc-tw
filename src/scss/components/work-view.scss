@@ -10,6 +10,42 @@
     max-width: 100%;
     position: relative;
     overflow-y: auto;
+
+    .empty-card {
+      width: 18rem;
+      height: 465px;
+      background-color: transparent;
+      border-style: dashed;
+      border-width: .2rem;
+      border-color: white;
+      opacity: .5;
+      cursor: pointer;
+      transition: .2s ease-in-out;
+      user-select: none;
+
+      &:hover {
+        transition: .2s ease-in-out;
+        opacity: 1;
+        outline: 0 !important;
+      }
+
+      &:active {
+        transition: .2s ease-in-out;
+        border-color: orange;
+        outline: 0 !important;
+
+        .add-svg {
+          fill: orange;
+        }
+      }
+
+      .add-svg {
+        fill: white;
+        top: 50%;
+        transition: .2s ease-in-out;
+        transform: translateY(-50%) scale(2);
+      }
+    }
   }
 
   @include d-svg(50);
