@@ -1,6 +1,11 @@
 <template>
   <div class="work-view my-3 my-sm-3 mx-sm-auto rounded-3 mx-3">
-    <h1 class="py-3 py-sm-3 my-0">Works</h1>
+    <h1 class="py-3 py-sm-3 my-0">
+      <svg class="d-svg rounded-circle" viewBox="0 0 1 1">
+        <use xlink:href="#todo.svg"/>
+      </svg>
+      Works
+    </h1>
     <hr class="w-75 mx-auto my-0"/>
     <div class="container py-3 px-3 mw-100">
       <div class="row mw-100 position-relative mx-auto justify-content-center">
@@ -19,6 +24,7 @@ import '@/scss/components/work-view.scss'
 import {dbType, Work} from "@/firebase/type";
 import {getCurrentWorks} from "@/firebase/getWork";
 import WorkCard from "@/components/Work.vue";
+import '@/svg/todo.svg'
 
 export default defineComponent({
   name: 'WorkView',

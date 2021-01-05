@@ -7,6 +7,7 @@
 
 <script lang="ts">
 import {defineComponent, onMounted} from 'vue';
+import '@/scss/form.scss'
 
 export default defineComponent({
   name: 'Form',
