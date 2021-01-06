@@ -8,10 +8,11 @@
     </div>
     <div class="work-form px-5 py-5 rounded-3 shadow my-3 text-start">
       <form id="new-work-form" :key="formKey" class="w-100 mx-auto position-relative">
-        <button v-if="thumbnail" class="btn btn-danger position-absolute cancel-upload shadow rounded-circle"
+        <button v-if="thumbnail && !creating"
+                class="btn btn-danger position-absolute cancel-upload shadow rounded-circle"
                 type="button" @click.prevent.stop="cancelUploadImg">×
         </button>
-        <CircleProgress v-if="creating"/>
+        <CircleProgress v-if="creating" msg="uploading"/>
         <div :class="{'default':!thumbnail, 'invisible':creating}" class="picture my-3 position-relative px-3 py-3"
              style="height: 200px"
              @click.prevent.stop="uploadButtonClicked">
@@ -32,7 +33,7 @@
                 class="btn btn-primary btn-sm mx-1 my-1 text-nowrap fw-bolder mw-100 overflow-hidden"
                 type="submit"
                 @click.prevent.stop="uploadButtonClicked">
-          {{ thumbnail ? 'Change' : 'Upload' }} img
+          {{ thumbnail ? 'Alter' : 'Upload' }} img
         </button>
         <input
             ref="uploader"
@@ -42,8 +43,8 @@
             @change="onFileChanged($event)"
         >
         <button :class="{'disabled':creating || (!title || !subtitle)}"
-                class="btn btn-success btn-sm mx-1 my-1 text-nowrap fw-bolder mw-100 overflow-hidden" type="submit"
-                @click.prevent.stop="createWork"
+                autofocus class="btn btn-success btn-sm mx-1 my-1 text-nowrap fw-bolder mw-100 overflow-hidden"
+                type="submit" @click.prevent.stop="createWork"
         >
           Create Work
         </button>
@@ -104,28 +105,40 @@ export default defineComponent({
       data.creating = true
       const title = data.title.toString().trim()
       const subtitle = data.title.toString().trim()
+      let status = 'start'
 
-      let thumbnail = '', imgUrl = ''
-      if (data.thumbnail) {
-        imgUrl = await uploadImg(data.thumbnail) as string
+      if (title && subtitle) {
+        let thumbnail = '', imgUrl = ''
+        if (data.thumbnail) {
+          imgUrl = await uploadImg(data.thumbnail) as string
+        }
+        if (imgUrl) {
+          thumbnail = imgUrl
+        }
+        const now = Date.now()
+        try {
+          await store.collection('/works').doc(now.toString()).set({
+            title,
+            subtitle,
+            thumbnail,
+            createdAt: getNewTimeStamp(new Date())
+          })
+          status = 'done'
+        } catch (e) {
+          alert(e)
+        }
+      } else {
+        status = 'inputErr'
       }
-      if (imgUrl) {
-        thumbnail = imgUrl
-      }
-      const now = Date.now()
-      try {
-        await store.collection('/works').doc(now.toString()).set({
-          title,
-          subtitle,
-          thumbnail,
-          createdAt: getNewTimeStamp(new Date())
-        })
+      if (status === 'done') {
         alert('✔ Successfully create a Work!')
-      } catch (e) {
-        alert(e)
       }
       data.creating = false
-      clearForm()
+      if (status === 'inputErr') {
+        alert('please provide title and subtitle!!')
+      } else {
+        clearForm()
+      }
     }
 
     const uploadButtonClicked = () => {

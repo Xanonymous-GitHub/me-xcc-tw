@@ -2,6 +2,7 @@
   <span class="position-absolute middle" style="z-index: 10000">
     <progress class="pure-material-progress-circular"/>
   </span>
+  <p class="position-absolute middle middle__text">{{ msg }}</p>
 </template>
 
 <script lang="ts">
@@ -9,6 +10,13 @@ import {defineComponent} from 'vue';
 
 export default defineComponent({
   name: 'CircleProgress',
+  props: {
+    msg: {
+      default: '',
+      type: String,
+      required: false
+    }
+  }
 });
 </script>
 
@@ -18,6 +26,10 @@ export default defineComponent({
   left: 50%;
   margin: auto;
   transform: translate(-50%, -50%);
+
+  &__text {
+    transform: translate(-50%, 100%);
+  }
 }
 
 .pure-material-progress-circular {
