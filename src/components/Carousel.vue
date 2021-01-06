@@ -1,17 +1,18 @@
 <template>
-  <div id="carousel-top" class="carousel carousel__top slide mx-3 rounded-3 d-inline-block rounded-3 my-3 my-sm-3 shadow"
+  <div id="carousel-top"
+       class="carousel carousel__top slide mx-3 rounded-3 d-inline-block rounded-3 my-3 my-sm-3 shadow"
        data-bs-ride="carousel">
     <ol class="carousel-indicators">
       <li v-for="(_, k) in imageList" :key="k" :data-bs-slide-to="k" data-bs-target="#carousel-top"/>
     </ol>
     <div class="carousel-inner rounded-3">
       <div v-for="(url, k) in imageList" :key="k" class="carousel-item">
-        <img :src="url" alt="" class="d-block w-auto mw-100 mx-auto rounded-3">
+        <LazyImg :d-src="url" class="d-block w-auto mw-100 mx-auto rounded-3"/>
       </div>
     </div>
 
     <a v-for="(config, k) in carouseControllerConfig" :key="k" :class="'carousel-control-'+config.dataBsSlide"
-       :data-bs-slide="config.dataBsSlide" href="#carousel-top" role="button" rel="noreferrer noopener">
+       :data-bs-slide="config.dataBsSlide" href="#carousel-top" rel="noreferrer noopener" role="button">
       <span :class="'carousel-control-'+config.dataBsSlide+'-icon'" aria-hidden="true"></span>
       <span class="visually-hidden">{{ config.text }}</span>
     </a>
@@ -21,9 +22,13 @@
 <script lang="ts">
 import {defineComponent, reactive, toRefs, onMounted, nextTick} from 'vue';
 import '@/scss/components/carouse.scss'
+import LazyImg from "@/components/LazyImg.vue";
 
 export default defineComponent({
   name: 'Carousel',
+  components: {
+    LazyImg
+  },
   setup() {
     const data = reactive({
       imageList: [

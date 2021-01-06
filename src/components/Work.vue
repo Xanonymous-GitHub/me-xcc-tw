@@ -5,7 +5,7 @@
         <use xlink:href="#cancel.svg"/>
       </svg>
     </div>
-    <img :src="thumbnail" alt="" class="card-img-top img-fluid rounded-3 py-3 px-3">
+    <LazyImg :d-src="thumbnail" class="card-img-top img-fluid rounded-3 py-3 px-3"/>
     <div class="card-body">
       <h5 class="card-title text-dark">{{ title }}</h5>
       <p class="card-subtitle text-dark">{{ subtitle }}</p>
@@ -17,6 +17,7 @@
 import {defineComponent} from 'vue';
 import '@/svg/cancel.svg'
 import '@/scss/components/work.scss'
+import LazyImg from "@/components/LazyImg.vue";
 
 export default defineComponent({
   name: 'Work',
@@ -40,6 +41,9 @@ export default defineComponent({
       default: '',
       required: true
     }
+  },
+  components: {
+    LazyImg
   },
   setup(props, {emit}) {
     const remove = () => {
