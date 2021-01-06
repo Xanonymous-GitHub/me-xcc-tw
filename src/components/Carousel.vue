@@ -20,14 +20,13 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, reactive, toRefs, onMounted, nextTick} from 'vue';
+import {defineComponent, reactive, toRefs, onMounted, nextTick, defineAsyncComponent} from 'vue';
 import '@/scss/components/carouse.scss'
-import LazyImg from "@/components/LazyImg.vue";
 
 export default defineComponent({
   name: 'Carousel',
   components: {
-    LazyImg
+    LazyImg: defineAsyncComponent(() => import('@/components/LazyImg.vue'))
   },
   setup() {
     const data = reactive({

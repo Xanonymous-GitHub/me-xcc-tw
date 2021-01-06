@@ -7,21 +7,19 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, onMounted} from 'vue';
+import {defineComponent, onMounted, defineAsyncComponent} from 'vue';
 import NavBar from '@/components/NavBar.vue'
-import Carousel from "@/components/Carousel.vue";
 import Header from "@/components/Header.vue";
 import Profile from "@/components/Profile.vue";
-import WorkView from "@/components/WorkView.vue";
 
 export default defineComponent({
   name: 'Home',
   components: {
     NavBar,
-    Carousel,
+    Carousel: defineAsyncComponent(() => import('@/components/Carousel.vue')),
     Header,
     Profile,
-    WorkView
+    WorkView: defineAsyncComponent(() => import('@/components/WorkView.vue'))
   },
   setup() {
     onMounted(() => {

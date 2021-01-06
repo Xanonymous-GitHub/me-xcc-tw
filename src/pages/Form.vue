@@ -12,7 +12,7 @@
                 class="btn btn-danger position-absolute cancel-upload shadow rounded-circle"
                 type="button" @click.prevent.stop="cancelUploadImg">×
         </button>
-        <CircleProgress v-if="creating" msg="uploading"/>
+        <CircleProgress v-if="creating" :msg="progressMsg"/>
         <div :class="{'default':!thumbnail, 'invisible':creating}" class="picture my-3 position-relative px-3 py-3"
              style="height: 200px"
              @click.prevent.stop="uploadButtonClicked">
@@ -25,10 +25,19 @@
           <label class="form-label fw-bolder" for="title-input">*Title</label>
           <input id="title-input" v-model="title" class="form-control" type="text">
         </div>
+
         <div :class="{'invisible':creating}" class="mb-3">
           <label class="form-label fw-bolder" for="sub-title-input">*Subtitle</label>
           <input id="sub-title-input" v-model="subtitle" class="form-control" type="text">
         </div>
+
+        <button :class="{'disabled':creating || (!title || !subtitle)}"
+                autofocus class="btn btn-success btn-sm mx-1 my-1 text-nowrap fw-bolder mw-100 overflow-hidden"
+                type="submit" @click.prevent.stop="createWork"
+        >
+          Create Work
+        </button>
+
         <button :class="{'disabled':creating || changingImg}"
                 class="btn btn-primary btn-sm mx-1 my-1 text-nowrap fw-bolder mw-100 overflow-hidden"
                 type="submit"
@@ -42,12 +51,7 @@
             type="file"
             @change="onFileChanged($event)"
         >
-        <button :class="{'disabled':creating || (!title || !subtitle)}"
-                autofocus class="btn btn-success btn-sm mx-1 my-1 text-nowrap fw-bolder mw-100 overflow-hidden"
-                type="submit" @click.prevent.stop="createWork"
-        >
-          Create Work
-        </button>
+
       </form>
     </div>
   </main>
@@ -55,19 +59,18 @@
 
 
 <script lang="ts">
-import {defineComponent, onMounted, reactive, toRefs, ref, inject, computed} from 'vue';
+import {defineComponent, onMounted, reactive, toRefs, ref, inject, computed, defineAsyncComponent} from 'vue';
 import '@/scss/form.scss'
 import '@/svg/todo.svg'
 import '@/svg/image.svg'
 import {dbType, UploadedMedia} from "@/firebase/type";
 import {getNewTimeStamp} from "@/firebase/init";
 import {uploadMedia, toBase64, replaceDefaultPicture} from "@/firebase/uploadImg";
-import CircleProgress from "@/components/CircleProgress.vue";
 
 export default defineComponent({
   name: 'Form',
   components: {
-    CircleProgress
+    CircleProgress: defineAsyncComponent(() => import('@/components/CircleProgress.vue'))
   },
   setup() {
     const data = reactive({
@@ -77,7 +80,8 @@ export default defineComponent({
       thumbnail: undefined as unknown as File,
       creating: false,
       changingImg: false,
-      formKey: 0
+      formKey: 0,
+      progressMsg: ''
     })
 
     const uploader = ref({} as HTMLInputElement)
@@ -104,12 +108,13 @@ export default defineComponent({
     const createWork = async () => {
       data.creating = true
       const title = data.title.toString().trim()
-      const subtitle = data.title.toString().trim()
+      const subtitle = data.subtitle.toString().trim()
       let status = 'start'
 
       if (title && subtitle) {
         let thumbnail = '', imgUrl = ''
         if (data.thumbnail) {
+          data.progressMsg = 'uploading image...'
           imgUrl = await uploadImg(data.thumbnail) as string
         }
         if (imgUrl) {
@@ -117,6 +122,7 @@ export default defineComponent({
         }
         const now = Date.now()
         try {
+          data.progressMsg = 'creating work...'
           await store.collection('/works').doc(now.toString()).set({
             title,
             subtitle,

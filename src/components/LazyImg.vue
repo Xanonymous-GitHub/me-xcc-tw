@@ -1,5 +1,5 @@
 <template>
-  <img :data-src="dSrc" alt="" class="lozad mask" src="">
+  <img :data-src="dSrc" alt="" class="lozad mask" src="https://i.imgur.com/aVzzr34.webp">
 </template>
 
 <script lang="ts">
@@ -37,6 +37,10 @@ export default defineComponent({
 .mask {
   opacity: 0;
   transition: 1s ease;
+  min-width: inherit;
+  min-height: inherit;
+  max-width: inherit;
+  max-height: inherit;
 
   &__completed {
     opacity: 1;

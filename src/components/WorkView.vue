@@ -1,7 +1,8 @@
 <template>
   <div class="work-view my-3 my-sm-3 mx-sm-auto rounded-3 mx-3 shadow position-relative">
     <router-link rel="noreferrer noopener" target='_blank' to="/form">
-      <button type="button" class="btn text-white position-absolute new-work-btn shadow fw-bolder fs-6 mx-2 my-2">+</button>
+      <button class="btn text-white position-absolute new-work-btn shadow fw-bolder fs-6 mx-2 my-2" type="button">+
+      </button>
     </router-link>
     <h1 class="py-3 py-sm-3 my-0">
       <svg class="d-svg" viewBox="0 0 1 1">
@@ -11,6 +12,8 @@
     </h1>
     <hr class="w-75 mx-auto my-0"/>
     <div class="container py-3 px-3 mw-100">
+      <CircleProgress v-if="processing" :msg="progressMsg" style="z-index: 100000000"/>
+      <div :class="{'wall__show':processing}" class="wall position-absolute"/>
       <div class="row mw-100 position-relative mx-auto justify-content-center">
         <WorkCard v-for="(work, k) in works" :key="k"
                   :subtitle="work.subtitle"
@@ -31,40 +34,39 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, inject, onMounted, reactive, toRefs} from 'vue';
+import {defineComponent, inject, onMounted, reactive, toRefs, defineAsyncComponent, nextTick} from 'vue';
 import '@/scss/components/work-view.scss'
 import {dbType, Work} from "@/firebase/type";
 import {getCurrentWorks} from "@/firebase/getWork";
-import WorkCard from "@/components/Work.vue";
 import '@/svg/todo.svg'
 import '@/svg/add.svg'
 
 export default defineComponent({
   name: 'WorkView',
   components: {
-    WorkCard
+    WorkCard: defineAsyncComponent(() => import('@/components/Work.vue')),
+    CircleProgress: defineAsyncComponent(() => import('@/components/CircleProgress.vue'))
   },
   setup() {
     const store = inject<dbType>('db') as dbType
     const data = reactive({
       processing: false,
-      works: undefined as unknown as Array<Work>
+      works: undefined as unknown as Array<Work>,
+      progressMsg: ''
     })
 
-    const remove = (uid: string) => {
+    const remove = async (uid: string) => {
       data.processing = true
-      try {
-        store.collection('/works').doc(uid).delete()
-      } catch (e) {
-        alert(e)
-        data.processing = false
-        return
-      }
-      const indexToRemove = data.works.findIndex(work => work.id === uid)
-      if (indexToRemove !== -1) {
-        data.works.splice(indexToRemove, 1)
-        checkIfNeedToShowEmptyCard()
-      }
+      await nextTick(async () => {
+        try {
+          await store.collection('/works').doc(uid).delete()
+        } catch (e) {
+          alert(e)
+          data.processing = false
+          return
+        }
+        await displayWorks()
+      })
       data.processing = false
     }
 

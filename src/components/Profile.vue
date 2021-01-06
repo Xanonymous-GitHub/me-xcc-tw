@@ -37,19 +37,18 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, reactive, toRefs} from 'vue';
+import {defineComponent, reactive, toRefs ,defineAsyncComponent} from 'vue';
 import '@/scss/components/profile.scss'
 import '@/svg/gmail.svg'
 import '@/svg/telegram.svg'
 import '@/svg/youtube.svg'
 import '@/svg/linkedIn.svg'
 import '@/svg/instagram.svg'
-import LazyImg from "@/components/LazyImg.vue";
 
 export default defineComponent({
   name: 'Profile',
   components: {
-    LazyImg
+    LazyImg: defineAsyncComponent(() => import('@/components/LazyImg.vue'))
   },
   setup() {
     const data = reactive({
