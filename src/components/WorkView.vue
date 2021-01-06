@@ -14,7 +14,7 @@
     <div class="container py-3 px-3 mw-100">
       <CircleProgress v-if="processing" :msg="progressMsg" style="z-index: 100000000"/>
       <div :class="{'wall__show':processing}" class="wall position-absolute"/>
-      <div class="row mw-100 position-relative mx-auto justify-content-center">
+      <div :class="{'invisible':processing}" class="row mw-100 position-relative mx-auto justify-content-center">
         <WorkCard v-for="(work, k) in works" :key="k"
                   :subtitle="work.subtitle"
                   :thumbnail="work.thumbnail"
