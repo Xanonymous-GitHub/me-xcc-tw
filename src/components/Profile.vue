@@ -9,9 +9,12 @@
       <div class="canprd-body mw-100">
         <h5 class="card-title fw-bolder fs-3">About Me</h5>
         <hr/>
-        <p class="card-text fw-bold mw-100 text-wrap">Xanonymous TeU Lin</p>
-        <p class="card-text mw-100 text-wrap">True mastery of any skill takes a lifetime, and if you are doing your best, you will not
-                             have to worry about failure.</p>
+        <p class="card-text fw-bold mw-100 text-wrap">Xanonymous TeU Lin 林天佑 108820003</p>
+        <p class="card-text mw-100 text-wrap justify">
+          True mastery of any skill takes a lifetime, and if you are doing your best, you will not have to worry about failure.
+          Jonah Creed is currently enrolled as a third-year student at Birmingham City University and he specializes in Adult Nursing. Like many other adult students, he's required to arrange and meet specific criteria so he can qualify to pursue his chosen healthcare career.
+          Structuring involves giving the right priorities to pathways that enable him to achieve the career path he has chosen. For instance, Jonah has to reach an educational level of level 3 as a requirement and a level 2 minimum for Math and English proficiency. Jonah successfully finished his level 3 Business and Finance, but the University didn't consider because he accomplished this eighteen years ago.
+        </p>
 
         <div class="contact d-flex flex-column flex-sm-row flex-wrap rounded-pill my-1 py-1">
           <address v-for="(contact, k) in contacts" :key="k" class="fw-bolder mx-sm-3 mx-0 rounded-pill px-1 my-auto">

@@ -48,7 +48,8 @@ export const replaceDefaultPicture = (picture: string | undefined, container: HT
     realPicture.setAttribute("style", `
       width: auto;
       max-width: 100%;
-      max-height: 200px;
+      height: auto;
+      max-height: 100%;
       position: relative;
       margin: 0 auto;
       left: 50%;

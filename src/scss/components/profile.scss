@@ -43,5 +43,9 @@
     }
   }
 
+  .justify {
+    text-align: justify;
+  }
+
   @include d-svg(30);
 }

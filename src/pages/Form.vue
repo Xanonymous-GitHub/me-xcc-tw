@@ -8,6 +8,9 @@
     </div>
     <div class="work-form px-5 py-5 rounded-3 shadow my-3 text-start">
       <form id="new-work-form" :key="formKey" class="w-100 mx-auto position-relative">
+        <button v-if="thumbnail" class="btn btn-danger position-absolute cancel-upload shadow rounded-circle"
+                type="button" @click.prevent.stop="cancelUploadImg">×
+        </button>
         <CircleProgress v-if="creating"/>
         <div :class="{'default':!thumbnail, 'invisible':creating}" class="picture my-3 position-relative px-3 py-3"
              style="height: 200px"
@@ -25,23 +28,11 @@
           <label class="form-label fw-bolder" for="sub-title-input">*Subtitle</label>
           <input id="sub-title-input" v-model="subtitle" class="form-control" type="text">
         </div>
-<!--        <div :class="{'invisible':creating}" class="mb-3">-->
-<!--          <label class="form-label fw-bolder" for="thumbnail-input">Thumbnail (url)</label>-->
-<!--          <div class="d-flex flex-wrap w-100 justify-content-between">-->
-<!--            <input id="thumbnail-input" ref="thumbnailInput" v-model="thumbnailUrl" class="form-control w-75"-->
-<!--                   type="url">-->
-<!--            <button :class="{'disabled':validateThumbnailInputUrl ||(creating || changingImg)}"-->
-<!--                    class="btn btn-warning btn-sm mx-1 my-1 text-nowrap fw-bolder mw-100 h-auto overflow-hidden position-relative"-->
-<!--                    type="submit">-->
-<!--              Preview-->
-<!--            </button>-->
-<!--          </div>-->
-<!--        </div>-->
         <button :class="{'disabled':creating || changingImg}"
                 class="btn btn-primary btn-sm mx-1 my-1 text-nowrap fw-bolder mw-100 overflow-hidden"
                 type="submit"
                 @click.prevent.stop="uploadButtonClicked">
-          Upload img
+          {{ thumbnail ? 'Change' : 'Upload' }} img
         </button>
         <input
             ref="uploader"
@@ -94,9 +85,10 @@ export default defineComponent({
 
     const onFileChanged = async (e: InputEvent) => {
       data.changingImg = true
-      data.thumbnail = ((e.target as HTMLInputElement).files as FileList)[0]
-      if (isFileImage(data.thumbnail)) {
-        if (data.thumbnail.size < 10 << 20) {
+      const tmpTmg = ((e.target as HTMLInputElement).files as FileList)[0]
+      if (isFileImage(tmpTmg)) {
+        if (tmpTmg.size < 10 << 20) {
+          data.thumbnail = tmpTmg
           const tmpAvatar = (await toBase64(data.thumbnail)) as string
           replaceDefaultPicture(tmpAvatar, document.getElementById('new-work-form') as HTMLFormElement)
         } else {
@@ -128,7 +120,7 @@ export default defineComponent({
           thumbnail,
           createdAt: getNewTimeStamp(new Date())
         })
-        alert('✔ Successfully create Work!')
+        alert('✔ Successfully create a Work!')
       } catch (e) {
         alert(e)
       }
@@ -166,6 +158,11 @@ export default defineComponent({
       return (!data.thumbnailUrl && thumbnailInput.value.checkValidity())
     })
 
+    const cancelUploadImg = () => {
+      data.thumbnail = undefined as unknown as File
+      data.formKey++
+    }
+
     onMounted(() => {
       document.dispatchEvent(new Event('app-rendered'));
     })
@@ -177,6 +174,7 @@ export default defineComponent({
       uploadButtonClicked,
       validateThumbnailInputUrl,
       thumbnailInput,
+      cancelUploadImg,
       ...toRefs(data)
     }
   }
