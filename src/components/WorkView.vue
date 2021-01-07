@@ -1,10 +1,16 @@
 <template>
   <div class="work-view my-3 my-sm-3 mx-sm-auto rounded-3 mx-3 shadow position-relative">
-    <router-link rel="noreferrer noopener" target='_blank' to="/form">
-      <button class="btn text-white position-absolute new-work-btn shadow fw-bolder fs-6 mx-2 my-2" type="button">+
-      </button>
-    </router-link>
-    <h1 class="py-3 py-sm-3 my-0">
+    <div class="position-absolute new-work-btn-area">
+      <router-link rel="noreferrer noopener" target='_blank' to="/form">
+        <button class="btn text-white position-relative shadow fw-bolder fs-6 mx-2 my-2" type="button">+
+        </button>
+      </router-link>
+      <p class="user-select-none live">
+        <span class="circle"/>
+        Live
+      </p>
+    </div>
+    <h1 class="py-4 py-sm-4 my-0">
       <svg class="d-svg" viewBox="0 0 1 1">
         <use xlink:href="#todo.svg"/>
       </svg>
@@ -14,7 +20,8 @@
     <div class="container py-3 px-3 mw-100">
       <CircleProgress v-if="processing" :msg="progressMsg"/>
       <div :class="{'wall__show':processing}" class="wall position-absolute"/>
-      <div :class="{'invisible':processing}" class="row mw-100 position-relative mx-auto justify-content-center">
+      <div :key="workViewKey" :class="{'invisible':processing}"
+           class="row mw-100 position-relative mx-auto justify-content-center">
         <WorkCard v-for="(work, k) in works" :key="k"
                   :subtitle="work.subtitle"
                   :thumbnail="work.thumbnail"
@@ -37,7 +44,7 @@
 import {defineComponent, inject, onMounted, reactive, toRefs, defineAsyncComponent, nextTick} from 'vue';
 import '@/scss/components/work-view.scss'
 import {dbType, Work} from "@/firebase/type";
-import {getCurrentWorks} from "@/firebase/getWork";
+import {getCurrentWorks, liveSubscribe} from "@/firebase/getWork";
 import '@/svg/todo.svg'
 import '@/svg/add.svg'
 
@@ -52,7 +59,8 @@ export default defineComponent({
     const data = reactive({
       processing: false,
       works: undefined as unknown as Array<Work>,
-      progressMsg: ''
+      progressMsg: '',
+      workViewKey: 0
     })
 
     const remove = async (uid: string) => {
@@ -72,22 +80,22 @@ export default defineComponent({
 
     const checkIfNeedToShowEmptyCard = () => {
       const emptyCard = document.getElementById('empty-card') as HTMLDivElement
-      if (data.works.length) {
-        emptyCard.classList.add('d-none')
-      } else {
-        emptyCard.classList.remove('d-none')
-      }
+      emptyCard.classList.toggle('d-none', !!data.works.length)
     }
 
     const displayWorks = async () => {
-      data.processing = true
       data.works = await getCurrentWorks(store)
-      checkIfNeedToShowEmptyCard()
-      data.processing = false
+      data.workViewKey++
+      await nextTick(() => {
+        checkIfNeedToShowEmptyCard()
+      })
     }
 
     onMounted(async () => {
+      data.processing = true
       await displayWorks()
+      liveSubscribe(store, displayWorks)
+      data.processing = false
     })
 
     return {

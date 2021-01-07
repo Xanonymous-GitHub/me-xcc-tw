@@ -6,3 +6,10 @@ export const getCurrentWorks = async (store: dbType): Promise<Array<Work>> => {
       Object.assign({id: work.id}, work.data())
     ) as unknown as Array<Work>
 }
+
+// eslint-disable-next-line
+export const liveSubscribe = (store: dbType, callback: (() => any)): void => {
+  store.collection('/works').onSnapshot(() => {
+    callback()
+  })
+}
