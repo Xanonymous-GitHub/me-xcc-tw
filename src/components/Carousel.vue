@@ -7,7 +7,7 @@
     </ol>
     <div class="carousel-inner rounded-3">
       <div v-for="(url, k) in imageList" :key="k" class="carousel-item">
-        <LazyImg :d-src="url" class="carousel-img d-block w-auto mw-100 mx-auto rounded-3"/>
+        <LazyImg :d-src="url" :force-load="forceLoad[k]" class="carousel-img d-block w-auto mw-100 mx-auto rounded-3"/>
       </div>
     </div>
 
@@ -32,6 +32,7 @@ export default defineComponent({
   setup() {
     const data = reactive({
       imageList: [] as Array<string>,
+      forceLoad: [] as Array<boolean>,
       carouseControllerConfig: [
         {
           text: 'Previous',
@@ -61,6 +62,11 @@ export default defineComponent({
           carouselIndicators[0].classList.add('active')
         }
       })
+
+      for (let i = 0; i < data.imageList.length; i++) {
+        data.forceLoad[i] = true
+        await new Promise<void>(resolve => setTimeout(() => resolve(), 300))
+      }
     })
 
     return {

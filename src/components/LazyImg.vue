@@ -1,9 +1,9 @@
 <template>
-  <img :data-src="dSrc" alt="" class="lozad mask" src="https://i.imgur.com/aVzzr34.webp">
+  <img ref="img" :data-src="dSrc" :src="defaultImgUrl" alt="" class="lozad mask">
 </template>
 
 <script lang="ts">
-import {defineComponent, onMounted} from 'vue';
+import {defineComponent, onMounted, ref, watchEffect} from 'vue';
 import lozad from 'lozad'
 
 export default defineComponent({
@@ -13,22 +13,46 @@ export default defineComponent({
       type: String,
       required: true,
       default: ''
+    },
+    forceLoad: {
+      type: Boolean,
+      default: false,
+      required: false
     }
   },
-  setup() {
-    onMounted(() => {
-      const observer = lozad(
-          '.lozad', {
-            loaded: async (element: HTMLImageElement) => {
-              await new Promise(resolve => {
-                element.onload = resolve
-              })
-              element.classList.add('mask__completed')
-            }
+  setup(props) {
+    const observer = lozad(
+        '.lozad', {
+          loaded: async (element: HTMLImageElement) => {
+            await new Promise(resolve => {
+              element.onload = resolve
+            })
+            element.classList.add('mask__completed')
           }
-      )
+        }
+    )
+
+    const defaultImgUrl = ref<string>('https://i.imgur.com/aVzzr34.webp')
+    const img = ref<HTMLImageElement>({} as HTMLImageElement)
+
+    onMounted(() => {
       observer.observe()
+      forceLoadService()
     })
+
+    const forceLoadService = () => {
+      watchEffect(() => {
+        if (props['forceLoad']) {
+          observer.triggerLoad(img.value)
+        }
+      })
+    }
+
+
+    return {
+      defaultImgUrl,
+      img
+    }
   }
 });
 </script>

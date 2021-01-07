@@ -1,8 +1,8 @@
 <template>
-  <span class="position-absolute middle" style="z-index: 10000">
+  <span class="position-absolute middle z">
     <progress class="pure-material-progress-circular"/>
   </span>
-  <p class="position-absolute middle middle__text">{{ msg }}</p>
+  <p class="position-absolute middle middle__text text-center">{{ msg }}</p>
 </template>
 
 <script lang="ts">
@@ -30,6 +30,10 @@ export default defineComponent({
   &__text {
     transform: translate(-50%, 100%);
   }
+}
+
+.z {
+  z-index: 100000000;
 }
 
 .pure-material-progress-circular {

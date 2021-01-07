@@ -10,10 +10,15 @@
     img {
       height: inherit;
       width: auto;
+      max-width: 100%;
+      min-height: inherit;
+      max-height: inherit;
     }
   }
 
   @media (max-width: 576px) {
     width: auto;
+    max-width: calc(100vw - 2rem);
+    min-width: calc(100vw - 2rem);
   }
 }
