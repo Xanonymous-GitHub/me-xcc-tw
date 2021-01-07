@@ -15,13 +15,3 @@ export interface Work extends WorkDocument {
   readonly id: string;
 }
 
-export type Response<T> = Promise<T | ResponseError>
-
-export interface ResponseError {
-  readonly statusCode?: number,
-  readonly message?: string
-}
-
-export interface UploadedMedia {
-  url: string
-}

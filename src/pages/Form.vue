@@ -64,9 +64,12 @@ import {defineComponent, onMounted, reactive, toRefs, ref, inject, computed, def
 import '@/scss/form.scss'
 import '@/svg/todo.svg'
 import '@/svg/image.svg'
-import {dbType, UploadedMedia} from "@/firebase/type";
+import {dbType} from "@/firebase/type";
 import {getNewTimeStamp} from "@/firebase/init";
-import {uploadMedia, toBase64, replaceDefaultPicture} from "@/firebase/uploadImg";
+import {uploadMedia} from "@/api/uploadImg";
+import {replaceDefaultPicture} from "@/util/dom";
+import {toBase64} from "@/util/encryption";
+import {UploadedMedia} from "@/api/type";
 
 export default defineComponent({
   name: 'Form',

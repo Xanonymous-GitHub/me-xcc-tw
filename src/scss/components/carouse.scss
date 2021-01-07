@@ -4,6 +4,15 @@
   height: calc(75vw * 309 / 463);
   transition: .3s ease-in-out;
 
+  .carousel-item {
+    height: inherit;
+
+    img {
+      height: inherit;
+      width: auto;
+    }
+  }
+
   @media (max-width: 576px) {
     width: auto;
   }

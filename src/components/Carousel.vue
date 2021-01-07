@@ -7,7 +7,7 @@
     </ol>
     <div class="carousel-inner rounded-3">
       <div v-for="(url, k) in imageList" :key="k" class="carousel-item">
-        <LazyImg :d-src="url" class="d-block w-auto mw-100 mx-auto rounded-3"/>
+        <LazyImg :d-src="url" class="carousel-img d-block w-auto mw-100 mx-auto rounded-3"/>
       </div>
     </div>
 
@@ -22,6 +22,7 @@
 <script lang="ts">
 import {defineComponent, reactive, toRefs, onMounted, nextTick, defineAsyncComponent} from 'vue';
 import '@/scss/components/carouse.scss'
+import {getImageUrlList} from "@/api/carousel";
 
 export default defineComponent({
   name: 'Carousel',
@@ -30,11 +31,7 @@ export default defineComponent({
   },
   setup() {
     const data = reactive({
-      imageList: [
-        'bFcdQMh',
-        'dEKDZaM',
-        'JPjHtac'
-      ].map((id) => 'https://i.imgur.com/' + id + '.webp'),
+      imageList: [] as Array<string>,
       carouseControllerConfig: [
         {
           text: 'Previous',
@@ -47,8 +44,13 @@ export default defineComponent({
       ]
     })
 
-    onMounted(() => {
-      nextTick(() => {
+    onMounted(async () => {
+      const imageList = (await getImageUrlList()) as Array<string>
+      if (!('statusCode' in imageList)) {
+        data.imageList = imageList
+      }
+
+      await nextTick(() => {
         const carouselItems = document.querySelectorAll('.carousel-item') as unknown as Array<HTMLDivElement>
         if (carouselItems.length > 0) {
           carouselItems[0].classList.add('active')

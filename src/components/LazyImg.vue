@@ -41,6 +41,10 @@ export default defineComponent({
   min-height: inherit;
   max-width: inherit;
   max-height: inherit;
+  width: auto;
+  height: auto;
+  background-position: center center;
+  background-size: cover;
 
   &__completed {
     opacity: 1;
