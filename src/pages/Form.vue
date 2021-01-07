@@ -12,7 +12,8 @@
                 class="btn btn-danger position-absolute cancel-upload shadow rounded-circle"
                 type="button" @click.prevent.stop="cancelUploadImg">×
         </button>
-        <CircleProgress v-if="creating" :msg="progressMsg"/>
+        <CircleProgress v-if="creating && !done" :msg="progressMsg"/>
+        <Done v-show="creating"/>
         <div :class="{'default':!thumbnail, 'invisible':creating}" class="picture my-3 position-relative px-3 py-3"
              style="height: 200px"
              @click.prevent.stop="uploadButtonClicked">
@@ -70,7 +71,8 @@ import {uploadMedia, toBase64, replaceDefaultPicture} from "@/firebase/uploadImg
 export default defineComponent({
   name: 'Form',
   components: {
-    CircleProgress: defineAsyncComponent(() => import('@/components/CircleProgress.vue'))
+    CircleProgress: defineAsyncComponent(() => import('@/components/CircleProgress.vue')),
+    Done: defineAsyncComponent(() => import('@/components/Done.vue'))
   },
   setup() {
     const data = reactive({
@@ -81,7 +83,8 @@ export default defineComponent({
       creating: false,
       changingImg: false,
       formKey: 0,
-      progressMsg: ''
+      progressMsg: '',
+      done: false,
     })
 
     const uploader = ref({} as HTMLInputElement)
@@ -137,7 +140,9 @@ export default defineComponent({
         status = 'inputErr'
       }
       if (status === 'done') {
-        alert('✔ Successfully create a Work!')
+        data.done = true;
+        (document.querySelector('.done') as HTMLDivElement).classList.add('drawn')
+        await new Promise<void>(resolve => setTimeout(() => resolve(), 3000))
       }
       data.creating = false
       if (status === 'inputErr') {
@@ -170,6 +175,7 @@ export default defineComponent({
       data.subtitle = ''
       data.thumbnail = undefined as unknown as File
       data.formKey++
+      data.done = false
     }
 
     const validateThumbnailInputUrl = computed((): boolean => {
