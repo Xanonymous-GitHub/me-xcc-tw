@@ -9,16 +9,17 @@
         <h5 class="card-title fw-bolder fs-3">About Me</h5>
         <hr/>
         <p class="card-text fw-bold mw-100 text-wrap">Xanonymous TeU Lin 林天佑 108820003</p>
-        <p class="card-text mw-100 text-wrap justify">
+        <p class="card-text mw-100 text-wrap text-start px-3">
           True mastery of any skill takes a lifetime, and if you are doing your best, you will not have to worry about
-          failure.
-          Jonah Creed is currently enrolled as a third-year student at Birmingham City University and he specializes in
-          Adult Nursing. Like many other adult students, he's required to arrange and meet specific criteria so he can
-          qualify to pursue his chosen healthcare career.
-          Structuring involves giving the right priorities to pathways that enable him to achieve the career path he has
-          chosen. For instance, Jonah has to reach an educational level of level 3 as a requirement and a level 2
-          minimum for Math and English proficiency. Jonah successfully finished his level 3 Business and Finance, but
-          the University didn't consider because he accomplished this eighteen years ago.
+          failure. <br/><br/>
+          Based on the original requirements, this webpage has added many features and details to make it more practical and gorgeous.<br/><br/>
+          First, I implemented the upload function of the thumbnails, and sent the thumbnails to imgur.com by calling the self-made backend api.<br/><br/>
+          Before uploading pictures, you can preview them in advance. When creating a job, the new picture links will be integrated into the data package.<br/><br/>
+          Furthermore, in order to improve the efficiency of web page loading, all the image formats on the homepage are webp and lazy-load.<br/><br/>
+          In addition, the work-view block on the homepage has the feature of real-time update, which can be synchronized to the latest information at any time.<br/><br/>
+          Although this is just homework at the end of the semester, I still try to do my best.<br/><br/>
+          Finally, if you haven't found it yet, this page uses the Vue framework, one of the three giants of front-end technology!<br/><br/>
+          If you want to know the source code of this page, please click the github link in the upper right corner.
         </p>
 
         <div class="contact d-flex flex-column flex-sm-row flex-wrap rounded-pill my-1 py-1">
