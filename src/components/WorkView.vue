@@ -23,6 +23,7 @@
       <div :key="workViewKey" :class="{'invisible':processing}"
            class="row mw-100 position-relative mx-auto justify-content-center">
         <WorkCard v-for="(work, k) in works" :key="k"
+                  :created-at="timestampConversion(work.createdAt)"
                   :subtitle="work.subtitle"
                   :thumbnail="work.thumbnail"
                   :title="work.title" :uid="work.id" class="col-3" @remove="remove"/>
@@ -43,10 +44,11 @@
 <script lang="ts">
 import {defineComponent, inject, onMounted, reactive, toRefs, defineAsyncComponent, nextTick} from 'vue';
 import '@/scss/components/work-view.scss'
-import {dbType, Work} from "@/firebase/type";
+import {dbType, Work, time} from "@/firebase/type";
 import {getCurrentWorks, liveSubscribe} from "@/firebase/getWork";
 import '@/svg/todo.svg'
 import '@/svg/add.svg'
+import timeFormater from "@/util/timeFormater";
 
 export default defineComponent({
   name: 'WorkView',
@@ -91,6 +93,10 @@ export default defineComponent({
       })
     }
 
+    const timestampConversion = (timestamp: time): string => {
+      return timeFormater(timestamp.toDate().valueOf())
+    }
+
     onMounted(async () => {
       data.processing = true
       await displayWorks()
@@ -100,6 +106,7 @@ export default defineComponent({
 
     return {
       remove,
+      timestampConversion,
       ...toRefs(data)
     }
   }

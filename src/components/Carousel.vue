@@ -65,7 +65,7 @@ export default defineComponent({
 
       for (let i = 0; i < data.imageList.length; i++) {
         data.forceLoad[i] = true
-        await new Promise<void>(resolve => setTimeout(() => resolve(), 300))
+        await new Promise<void>(resolve => setTimeout(() => resolve(), 500))
       }
     })
 

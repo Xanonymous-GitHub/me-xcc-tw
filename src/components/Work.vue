@@ -7,6 +7,7 @@
     </div>
     <LazyImg :d-src="finalThumbnail" class="card-img-top img-fluid rounded-3 py-3 px-3"/>
     <div class="card-body">
+      <span class="badge bg-light rounded-pill text-dark user-select-none">{{ createdAt }}</span>
       <h5 class="card-title text-dark">{{ title }}</h5>
       <p class="card-subtitle text-dark">{{ subtitle }}</p>
     </div>
@@ -36,6 +37,11 @@ export default defineComponent({
       required: true
     },
     subtitle: {
+      type: String,
+      default: '',
+      required: true
+    },
+    createdAt: {
       type: String,
       default: '',
       required: true

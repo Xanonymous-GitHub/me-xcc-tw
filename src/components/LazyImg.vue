@@ -41,7 +41,7 @@ export default defineComponent({
     })
 
     const forceLoadService = () => {
-      watchEffect(() => {
+      watchEffect(async () => {
         if (props['forceLoad']) {
           observer.triggerLoad(img.value)
         }

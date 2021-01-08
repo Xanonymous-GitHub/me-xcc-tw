@@ -20,7 +20,7 @@ Works! is a Simple To-do list website.
 1. Clone this repo from Github.
 2. Install node v14+ on your device.
 3. In the root of project folder, run `npm install`.
-    - if you meet some error on this step, try to add `--legacy-peer-deps` after previous command and run again.
+    - if you meet some error on this step, try to add `--force` after previous command and run again.
     
 4. run `npm run serve`, and you may see the website serve on http://localhost:8080 (port number may different).
 
